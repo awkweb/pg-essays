@@ -1,0 +1,110 @@
+:root {
+    --color-accent: hsl(19, 72%, 61%);
+    --color-background: hsl(210, 5%, 8%);
+    --color-body: hsl(210, 3%, 75%);
+    --color-border: hsl(210, 3%, 30%);
+    --color-muted: hsl(210, 3%, 50%);
+    --container-width: 35rem;
+    --font-sans: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    --font-size: 18px;
+    --line-height: 1.7;
+}
+
+::selection {
+    background: var(--color-body);
+    color: var(--color-background);
+}
+
+html {
+    background: var(--color-background);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    background: var(--color-background);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3rem;
+    max-width: var(--container-width);
+}
+
+font {
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+}
+
+a {
+    background-image: linear-gradient(var(--color-border), var(--color-border));
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    color: var(--color-body);
+    text-decoration: none;
+}
+a:visited { color: var(--color-muted); }
+a:hover { color: var(--color-accent); }
+
+u {
+    text-decoration: none;
+}
+
+hr {
+    border-top: 1px solid var(--colors-border);
+}
+
+/* Layout */
+body > table {
+    display: flex;
+}
+
+tr td:not(:last-child) {
+    display: none;
+}
+
+tr td:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+}
+
+tr td table {
+    width: var(--container-width);
+}
+
+/* Hide logo */
+a[href="index.html"] {
+    display: none;
+    max-width: max-content;
+}
+a[href="index.html"]:before {
+    color: var(--color-muted);
+    content: "Home";
+}
+img[src="https://sep.yimg.com/ca/I/paulgraham_2271_3232"] {
+    display: none;
+}
+
+/* Page titles */
+tr td table tbody tr td img {
+    height: 3.45rem;
+    opacity: 0;
+}
+
+h1 {
+    color: var(--color-body);
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+/* Bullet images */
+img[src="https://sep.yimg.com/ca/Img/trans_1x1.gif"] {
+    display: none;
+}
+img[src="https://sep.yimg.com/ca/I/paulgraham_2272_1423"] {
+    display: none;
+}
