@@ -1,29 +1,37 @@
 const fetch = require('node-fetch')
 
 module.exports = async (req, res) => {
-  // Switch homepage to articles
-  const url = req.url === "/" || req.url === "/index.html" ? "/articles.html" : req.url
+    // Switch homepage to articles
+    const isHomepage =
+        req.url === '/' ||
+        req.url === '/index.html' ||
+        req.url === '/articles.html'
+    const url = isHomepage ? '/articles.html' : req.url
 
-  // Add content to head and body
-  const head =
-    '<meta content="width=device-width, initial-scale=1.0" name="viewport" />' +
-    '<link media="all" href="/styles.css" rel="stylesheet" />' +
-    '<script src="/script.js"></script>' +
-    '</head>'
-  const body =
-    '<p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="https://github.com/tmm/pg-essays">GitHub</a>.</p>'
-    '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
-    '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
+    // Add new stylesheet and script
+    const head =
+        '<meta content="width=device-width, initial-scale=1.0" name="viewport" />' +
+        '<link media="all" href="/styles.css" rel="stylesheet" />' +
+        '<script src="/script.js"></script>' +
+        '</head>'
 
-  const html = (await (await fetch('http://paulgraham.com' + url)).text())
-    .replace('</head>', head)
-    .replace('</body>', body)
-    .replace(/�/g, '—')
-    .replace(/http:/g, "https:")
+    // Add footer and analytics
+    const body =
+        '<footer><p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="https://github.com/tmm/pg-essays">GitHub</a>.</p></footer>'
+        '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
+        '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
 
-  // Five minutes
-  res.setHeader('Cache-Control', 'max-age=0, s-maxage=300')
+    const html = (await (await fetch('http://paulgraham.com' + url)).text())
+        .replace('</head>', head)
+        .replace('</body>', body)
+        .replace(/�/g, '—') // Replace broken emdash
+        .replace(/http:/g, "https:") // Force https for favicon, etc.
 
-  res.send(html)
-  res.end()
+    // Cache articles page for five minutes and posts for a day
+    const maxAge = isHomepage ? '300' : '86400'
+    res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + maxAge)
+
+    // Send html to client
+    res.send(html)
+    res.end()
 }
