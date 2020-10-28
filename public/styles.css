@@ -94,6 +94,11 @@ body > table > tbody > tr > td > table {
     max-width: var(--container-width);
 }
 
+
+body > table > tbody > tr > td > table > tbody > tr > td > font > hr {
+    display: none;
+}
+
 /* Hide logo */
 a[href="index.html"] {
     display: none;
@@ -125,4 +130,45 @@ img[src="https://sep.yimg.com/ca/Img/trans_1x1.gif"] {
 }
 img[src="https://sep.yimg.com/ca/I/paulgraham_2272_1423"] {
     display: none;
+}
+
+/* YC banner */
+td[bgcolor="#ff9922"] {
+    display: none;
+}
+
+/* Footnotes */
+font[color="#999999"] {
+    color: var(--color-muted);
+}
+
+/* Dividers */
+center {
+    color: var(--color-muted);
+}
+
+/* Tables */
+center table,
+center table * {
+    border-color: var(--color-border);
+}
+
+center table {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+center table td {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Print */
+@media print {
+    :root {
+        --color-accent: hsl(225, 80%, 57%);
+        --color-background: hsl(104, 100%, 100%);
+        --color-body: hsl(109, 0%, 30%);
+        --color-border: hsl(204, 0%, 80%);
+        --color-muted: hsl(109, 0%, 45%);
+    }
 }
