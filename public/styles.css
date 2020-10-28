@@ -34,6 +34,7 @@ body {
     padding-right: 1rem;
 }
 
+p,
 font {
     color: var(--color-body);
     font-family: var(--font-sans);

@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     '<script src="/script.js"></script>' +
     '</head>'
   const body =
+    '<p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="https://github.com/tmm/pg-essays">GitHub</a>.</p>'
     '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
     '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
   const html = (await (await fetch('http://paulgraham.com' + url)).text())
