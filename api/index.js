@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
   const html = (await (await fetch('http://paulgraham.com' + url)).text())
     .replace('</head>', head)
     .replace('</body>', body)
+    .replace(/�/g, '—')
 
   res.send(html)
   res.end()
