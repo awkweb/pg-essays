@@ -7,9 +7,12 @@ module.exports = async (req, res) => {
     '<link media="all" href="/styles.css" rel="stylesheet" />' +
     '<script src="/script.js"></script>' +
     '</head>'
-  const html = (
-    await (await fetch('http://paulgraham.com' + url)).text()
-  ).replace('</head>', head)
+  const body =
+    '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
+    '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
+  const html = (await (await fetch('http://paulgraham.com' + url)).text())
+    .replace('</head>', head)
+    .replace('</body>', body)
 
   res.send(html)
   res.end()
