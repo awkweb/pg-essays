@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
     .replace('</head>', head)
     .replace('</body>', body)
     .replace(/�/g, '—')
+    .replace(/http:/g, "https:")
 
   res.send(html)
   res.end()
