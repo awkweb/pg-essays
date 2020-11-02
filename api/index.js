@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
     // Cache articles page for five minutes and posts for a day
     const maxAge = isHomepage ? '300' : '86400'
-    res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + maxAge)
+    res.setHeader('Cache-Control', `max-age=0, s-maxage=${maxAge}`)
 
     // Send html to client
     res.send(html)
