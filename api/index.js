@@ -1,6 +1,8 @@
 const fetch = require('node-fetch')
 const pkg = require('../package.json')
 
+const baseUrl = 'http://paulgraham.com'
+
 module.exports = async (req, res) => {
     // Switch homepage to articles
     const isHomepage =
@@ -22,7 +24,7 @@ module.exports = async (req, res) => {
         '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
         '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
 
-    const html = (await (await fetch('http://paulgraham.com' + url)).text())
+    const html = (await (await fetch(new URL(url, baseUrl))).text())
         .replace('</head>', head)
         .replace('</body>', body)
         .replace(/�/g, '—') // Replace broken emdash
