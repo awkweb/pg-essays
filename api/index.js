@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     const body =
         `<footer><p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="${pkg.repository}">GitHub</a>.</p></footer>` +
         '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
-        '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
+        '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" /></noscript>'
 
     const html = (await (await fetch(new URL(url, baseUrl))).text())
         .replace('</head>', head)
