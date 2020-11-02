@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const pkg = require('../package.json')
 
 module.exports = async (req, res) => {
     // Switch homepage to articles
@@ -17,7 +18,7 @@ module.exports = async (req, res) => {
 
     // Add footer and analytics
     const body =
-        '<footer><p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="https://github.com/tmm/pg-essays">GitHub</a>.</p></footer>'
+        `<footer><p>Site by <a href="https://meagher.co">Tom Meagher</a>. Source on <a href="${pkg.repository}">GitHub</a>.</p></footer>` +
         '<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>' +
         '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt=""/></noscript>'
 
