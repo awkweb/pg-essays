@@ -2,6 +2,7 @@ const { format, parse } = require('path')
 const fetch = require('node-fetch')
 const { pipeline } = require('stream')
 const pkg = require('../package.json')
+const replace = require('replacestream')
 
 const baseUrl = 'http://paulgraham.com'
 
@@ -32,19 +33,19 @@ module.exports = async (req, res) => {
         return pipeline(origRes.body, res)
     }
 
-    const html = (await origRes.text())
-        .replace('</head>', head) // Add new stylesheet and script
-        .replace('</body>', body) // Add footer and analytics
-        .replace(/�/g, '—') // Replace broken emdash
-        .replace(/http:/g, "https:") // Force https for favicon, etc.
-
     // Cache articles page for five minutes and posts for a day
     const maxAge = isHomepage ? '300' : '86400'
     res.setHeader('Cache-Control', `max-age=0, s-maxage=${maxAge}`)
 
     // Send html to client
-    res.send(html)
-    res.end()
+    pipeline(
+        origRes.body,
+        replace('</head>', head), // Add new stylesheet and script
+        replace('</body>', body), // Add footer and analytics
+        replace(/�/g, '—'), // Replace broken emdash
+        replace(/http:/g, "https:"), // Force https for favicon, etc.
+        res
+    )
 }
 
 function normalize(path) {
