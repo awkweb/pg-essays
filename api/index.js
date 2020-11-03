@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         .replace('</head>', head) // Add new stylesheet and script
         .replace('</body>', body) // Add footer and analytics
         .replace(/�/g, '—') // Replace broken emdash
-        .replace(/http:/g, "https:") // Force https for favicon, etc.
+        .replace(/http:\/\//g, 'https://') // Force https for favicon, etc.
 
     // Send html to client
     res.send(html)
