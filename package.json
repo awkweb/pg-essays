@@ -7,7 +7,6 @@
     "repository": "https://github.com/tmm/pg-essays",
     "license": "MIT",
     "dependencies": {
-        "node-fetch": "^2.6.1",
-        "replacestream": "^4.0.3"
+        "node-fetch": "^2.6.1"
     }
 }

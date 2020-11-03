@@ -1,8 +1,6 @@
 const { format, parse } = require('path')
 const fetch = require('node-fetch')
-const { pipeline } = require('stream')
 const pkg = require('../package.json')
-const replace = require('replacestream')
 
 const baseUrl = 'http://paulgraham.com'
 
@@ -30,22 +28,24 @@ module.exports = async (req, res) => {
     const origRes = await fetch(new URL(pathname, baseUrl), { method: req.method })
 
     if (req.method !== 'GET' || !isHtml(path)) {
-        return pipeline(origRes.body, res)
+        res.send(await origRes.buffer())
+        res.end()
+        return
     }
 
     // Cache articles page for five minutes and posts for a day
     const maxAge = isHomepage ? '300' : '86400'
     res.setHeader('Cache-Control', `max-age=0, s-maxage=${maxAge}`)
 
+    const html = (await origRes.text())
+        .replace('</head>', head) // Add new stylesheet and script
+        .replace('</body>', body) // Add footer and analytics
+        .replace(/�/g, '—') // Replace broken emdash
+        .replace(/http:/g, "https:") // Force https for favicon, etc.
+
     // Send html to client
-    pipeline(
-        origRes.body,
-        replace('</head>', head), // Add new stylesheet and script
-        replace('</body>', body), // Add footer and analytics
-        replace(/�/g, '—'), // Replace broken emdash
-        replace(/http:/g, "https:"), // Force https for favicon, etc.
-        res
-    )
+    res.send(html)
+    res.end()
 }
 
 function normalize(path) {
