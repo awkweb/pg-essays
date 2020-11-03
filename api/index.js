@@ -1,5 +1,5 @@
+const { format, parse } = require('path')
 const fetch = require('node-fetch')
-const { parse } = require('path')
 const { pipeline } = require('stream')
 const pkg = require('../package.json')
 
@@ -19,11 +19,12 @@ const body =
 const isHtml = path => /^.html?$/i.test(path.ext)
 
 module.exports = async (req, res) => {
-    const path = parse(req.url)
+    // Normalize path
+    const path = normalize(parse(req.url))
 
     // Switch homepage to articles
-    const isHomepage = !path.name || ['index', 'articles'].includes(path.name)
-    const pathname = isHomepage ? '/articles.html' : req.url
+    const isHomepage = ['index', 'articles'].includes(path.name)
+    const pathname = isHomepage ? '/articles.html' : format(path)
 
     const origRes = await fetch(new URL(pathname, baseUrl), { method: req.method })
 
@@ -44,4 +45,12 @@ module.exports = async (req, res) => {
     // Send html to client
     res.send(html)
     res.end()
+}
+
+function normalize(path) {
+    path.name = path.name || 'index'
+    if (path.ext) return path
+    path.ext = '.html'
+    path.base = path.name + path.ext
+    return path
 }
