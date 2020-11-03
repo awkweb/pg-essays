@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { parse } = require('path')
 const pkg = require('../package.json')
 
 const baseUrl = 'http://paulgraham.com'
@@ -15,14 +16,13 @@ const body =
     '<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" /></noscript>'
 
 module.exports = async (req, res) => {
-    // Switch homepage to articles
-    const isHomepage =
-        req.url === '/' ||
-        req.url === '/index.html' ||
-        req.url === '/articles.html'
-    const url = isHomepage ? '/articles.html' : req.url
+    const path = parse(req.url)
 
-    const html = (await (await fetch(new URL(url, baseUrl))).text())
+    // Switch homepage to articles
+    const isHomepage = !path.name || ['index', 'articles'].includes(path.name)
+    const pathname = isHomepage ? '/articles.html' : req.url
+
+    const html = (await (await fetch(new URL(pathname, baseUrl))).text())
         .replace('</head>', head) // Add new stylesheet and script
         .replace('</body>', body) // Add footer and analytics
         .replace(/�/g, '—') // Replace broken emdash
