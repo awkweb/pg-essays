@@ -1,6 +1,10 @@
 {
     "name": "pg-essays",
     "version": "1.0.0",
+    "private": true,
+    "homepage": "https://github.com/tmm/pg-essays#readme",
+    "bugs": "https://github.com/tmm/pg-essays/issues",
+    "repository": "https://github.com/tmm/pg-essays",
     "license": "MIT",
     "dependencies": {
         "node-fetch": "^2.6.1"
